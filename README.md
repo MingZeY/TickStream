@@ -27,7 +27,7 @@ TickStream就是为了解决这样的问题，但从本质上TickStream并未通
 
 ### 安装
 
-一、将您下载的文件组放置您的游戏代码根目录，即同main.js在一个目录
+一、将您下载的文件组放置在您的游戏代码根目录，即同main.js在一个目录
 
 二、在main.js文档.loop下的 **末尾** 添加代码，它看起来像这样
 ```
@@ -35,7 +35,7 @@ module.exports.loop = function () {
     require('tickStreamMountExtension')();
 }
 ```
-若不出意外，您看到Screeps窗口中（不是控制台）您的殖民地中心会出现“TickStream已就绪”字样。
+若不出意外，您将会看到您的殖民地中心出现“TickStream已就绪”字样。
 
 三、部署TickStream
 前往控制台，在控制台键入代码
@@ -125,7 +125,7 @@ module.exports.loop = function () {
 ```
 
 六、部署完成
-至此您的TickStream就已经部署完成，您可能会疑惑：为什么没有任何反应，原因是TickStream的算法还没有提供任何服务，这需要您自己去根据TickStream的特性在tickStreamAlgorithm.js完成，相关API在其文件中以及注明，或者您也可以等待下一个可用版本的发布。
+至此您的TickStream就已经部署完成，您可能会感到疑惑：为什么没有任何反应，原因是TickStream的算法还没有提供任何服务，这需要您自己去根据TickStream的特性在tickStreamAlgorithm.js完成，相关API在其文件中以及注明，或者您也可以等待下一个可用版本的发布。
 
 
 ## 注意事项
