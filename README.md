@@ -57,18 +57,7 @@ global.tickStream.deploy()
 如果您想取消tickStream的部署，请键入global.tickStream.undeploy()
 
 四、编写并获取方法对象
-请新建一个JS文件或使用您之前的文件，这里我将写一段示例
-
-新建一个fun1.js文档当中写入如下内容
-```
-//fun1.js
-
-module.exports = function(){
-    //您要执行的代码
-    console.log("fun1执行完成");
-}
-```
-然后回到main.js在require之前获取到方法对象，它看起来是这个样子
+到main.js在require之前获取到方法对象，它看起来是这个样子
 ```
 module.exports.loop = function () {
 
@@ -89,6 +78,10 @@ module.exports.loop = function () {
 
 目前type属性只支持 `Every Time` 和 `Link Round`
 您也可以不填属性，这样默认代表type属性为 `Every Time`
+
+** 注意，注册表入参结构是 **
+require("...")([{方法表},{方法表},{...}])
+
 
 这里的代码比较多，我这里先直接贴上来
 ```
@@ -131,7 +124,11 @@ module.exports.loop = function () {
 
 六、部署完成
 至此您的TickStream就已经部署完成
+* `角色移动方法` 将会在每Tick执行一次
+* `角色驱动类方法` 与 `任务驱动类方法` 会按顺序铺满剩下可用的CPU
 
 
 ## 注意事项
-暂无，在部署TickStream前，请尽量保证TickStream环境之外不要有过多占用CPU的代码
+* 使用TickStream肯能会让您的Bucket稳定在85~95%之间，同时CPU也会涨到20左右，不必惊慌，这就是TickStream充分利用CPU的结果
+* 如果您发现您的CPU没有维持到20左右，有可能的原因是因为您没有注册 `Link Round` 类型的方法，一次TickStream没有为您铺满这个Tick而只运行了 `Every Time`类的方法
+* 暂无，在部署TickStream前，请尽量保证TickStream环境之外不要有过多占用CPU的代码
