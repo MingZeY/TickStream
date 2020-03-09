@@ -129,6 +129,6 @@ module.exports.loop = function () {
 
 
 ## 注意事项
-* 使用TickStream肯能会让您的Bucket稳定在85~95%之间，同时CPU也会涨到20左右，不必惊慌，这就是TickStream充分利用CPU的结果
-* 如果您发现您的CPU没有维持到20左右，有可能的原因是因为您没有注册 `Link Round` 类型的方法，一次TickStream没有为您铺满这个Tick而只运行了 `Every Time`类的方法
-* 暂无，在部署TickStream前，请尽量保证TickStream环境之外不要有过多占用CPU的代码
+* 使用TickStream可能会让您的Bucket稳定在85~95%之间，同时CPU也会涨到20左右，不必担心，这就是TickStream充分利用CPU的结果
+* 如果您发现您的CPU没有维持到20左右，有可能的原因是因为您没有注册 `Link Round` 类型的方法，因此TickStream没有为您铺满这个Tick而只运行了 `Every Time`类的方法
+* 在部署TickStream前，请尽量保证TickStream环境之外不要有过多占用CPU的代码
