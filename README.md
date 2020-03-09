@@ -1,9 +1,9 @@
 ## 什么是TickStream
 ### 概述
-TickStream 是 Screeps（一款编程游戏）的一种代码框架，使用TickStream可以充分发挥玩家在这款游戏中对其一些重要资源的应用能力。如果您不知道这款游戏，请通过链接前往官网或者社区论坛了解该游戏或暂停阅读，因为下面的内容将对你毫无意义。
+TickStream 是 Screeps（一款编程游戏）的一种框架，使用TickStream可以充分发挥玩家在这款游戏中对其一些重要资源的应用能力。如果您不知道这款游戏，请通过链接前往官网或者社区论坛了解该游戏或暂停阅读，因为下面的内容将对你毫无意义。
 
 ### 详细概述
-在Screeps中，由于服务器的架构的原因，玩家的代码在云端的执行时间将会存在阈值。这个阈值被官方称作 `CPU上限`，因此 `CPU`就成为了大部分玩家发挥代码能力的阻力之一。如果玩家的代码过于陈杂或过于庞大，就会导致CPU很快接近阈值且无法再新加任何代码。带来了不良好的游戏体验。
+在Screeps中，由于服务器的架构和运营的原因，玩家的代码在云端的执行时间将会存在阈值。这个阈值被官方称作 `CPU上限`，因此 `CPU`就成为了大部分玩家发挥代码能力的阻力之一。如果玩家的代码过于陈杂或过于庞大，就会导致CPU很快接近阈值且无法再新加任何代码。带来了不良好的游戏体验。
 
 TickStream就是为了解决这样的问题，但从本质上TickStream并未通过任何手段和途径提高您原有的CPU，而是通过“压榨”CPU的可用资源以及合理利用游戏机制来达到提高代码运行效率。
 
@@ -15,7 +15,18 @@ TickStream就是为了解决这样的问题，但从本质上TickStream并未通
 
 这就是TickStream，从现在开始我们也将持续更新TickStream的内容以及优化它的算法，让它功能更加齐全。
 
-**注意：若您看到本行字，即代表当前版本不适合新玩家使用。也代表当前版本的TickStream并没有内置算法，这意味着您无法使用到完整功能，如果您有足够的能力，您可以借此开始编写自己的算法**
+## 最近我们做了什么
+### 2020/3/9 `Verison 1.5`
+我们为TickStream内置了一个简单的算法，他可以满足TickStream框架的基本应用
+
+## 待优化的问题
+### 更友好的数据显示界面
+### 功能更加专一的算法，这会衍生很多不同的风格
+### 提供编程引导文档
+
+## 已知问题
+### 算法对CPU的计算不够精确，我们还在平衡算法效率和代码质量
+### 部署TickStream后，如果玩家在TickStream环境之外存在其他大量的代码，将导致算法的计算结果失真，甚至导致崩溃
 
 ## 如何安装TickSteam
 ### 下载
@@ -63,8 +74,11 @@ module.exports.loop = function () {
 
     //获取方法
     let fun1 = require('fun1');
-    let fun2 = require('fun1');//其他的方法，这里演示因此继续使用fun1.js
-    let fun3 = require('fun1');//其他的方法
+    let fun2 = require('someSystem').someFunction;
+    //或
+    let fun3 = function(){
+        //code
+    }
 
     require('tickStreamMountExtension')();
 }
@@ -72,51 +86,42 @@ module.exports.loop = function () {
 确保您的代码完成后下面将进行注册表登记
 
 五、注册表登记
+
+目前type属性只支持 `Every Time` 和 `Link Round`
+您也可以不填属性，这样默认代表type属性为 `Every Time`
+
 这里的代码比较多，我这里先直接贴上来
 ```
 module.exports.loop = function () {
 
     //获取方法
     let fun1 = require('fun1');
-    let fun2 = require('fun1');//其他的方法，这里演示因此继续使用fun1.js
-    let fun3 = require('fun1');//其他的方法
+    let fun2 = require('someSystem').someFunction;
+    //或
+    let fun3 = function(){
+        //code
+    }
 
     //启动TickStream 并注册方法
-    require('tickStreamMountExtension')(
-    [
+    require('tickStreamMountExtension')([
         {
-            funName:"普通可叠加算法类执行方法1",
+            funName:"角色移动方法",
             funObj:fun1,
             options:{
-                weightLevel:0,//权重级别，权重越高，在资源告急时先被满足
-                type:'normal',
-                /**
-                * 类型：
-                * 自动(auto)：根据权重自动调整
-                * 旧的(old)：
-                * 可叠加(superposition)：一个tick可执行多次
-                * 不可叠加(nosuperposition):一个tick内不允许多次执行
-                * 执行器方法(actuator)：
-                * 一个tick内必须且执行一次，creep移动攻击等务必使用
-                */
-                state:'running'//状态：您可以选择停用(stop)或者启用(running)
+                type:"Every Time"//代表这个方法每Tick运行且只运行一次
             }
         },
         {
             funName:"角色驱动类方法",
             funObj:fun2,
             options:{
-                weightLevel:10,
-                type:'superposition'
+                tpye:"Link Round"//代表这个方法会和其他同类属性的方法按顺序执行且尽可能多次执行
             }
         },
         {
             funName:"任务驱动类方法",
             funObj:fun3,
-            options:{
-                weightLevel:10,
-                type:'superposition'
-            }
+            //不填options则默认其type为 Every Time
         }
     ]);//下文不建议出现任何代码
 
@@ -125,8 +130,8 @@ module.exports.loop = function () {
 ```
 
 六、部署完成
-至此您的TickStream就已经部署完成，您可能会感到疑惑：为什么没有任何反应，原因是TickStream的算法还没有提供任何服务，这需要您自己去根据TickStream的特性在tickStreamAlgorithm.js完成，相关API在其文件中以及注明，或者您也可以等待下一个可用版本的发布。
+至此您的TickStream就已经部署完成
 
 
 ## 注意事项
-暂无
+暂无，在部署TickStream前，请尽量保证TickStream环境之外不要有过多占用CPU的代码
