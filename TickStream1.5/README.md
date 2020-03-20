@@ -10,6 +10,9 @@
 ## 已知问题
 * 算法对CPU的计算不够精确，我们还在平衡算法效率和代码质量
 * 部署TickStream后，如果玩家在TickStream环境之外存在其他大量的代码，将导致算法的计算结果失真，甚至导致崩溃
+* 算法中一个while循环中的变量声明位置不合理
+* 算法文件中对FunList入参的描述存在错误，Funlist指向global上的对象而不是Memory中的对象
+* Register中
 
 ## 如何安装TickSteam
 ### 下载
